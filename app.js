@@ -2,6 +2,10 @@ const gameBoard = (() => {
     let currentPlayer = "player1";
     const cells = document.querySelectorAll(".cell");
 
+    const getCurrentPlayer = () => {
+        return currentPlayer;
+    }
+
     const getBoard = () => {
         let board = [];
         cells.forEach(cell => board.push(cell.innerHTML));
@@ -28,13 +32,28 @@ const gameBoard = (() => {
             this.removeEventListener('click', chooseCell);
         }
 
+        function checkWinner() {
+            if (game.checkWinner() === true) {
+                console.log('Winner!');
+
+                // TODO: Change message in message spot to "Winner"
+                // TODO: Reset board
+                
+            } else if (game.checkWinner() === "draw") {
+                console.log('Draw');
+            }
+        }
+
         cells.forEach(cell => 
             cell.addEventListener('click', chooseCell));
+        
+        cells.forEach(cell => 
+            cell.addEventListener('click', checkWinner));
 
         render();
     }
 
-    return {init, getBoard};
+    return {getCurrentPlayer, init, getBoard};
 })();
 
 const Player = (marker) => {
@@ -59,7 +78,38 @@ const game = (() => {
 			[2, 4, 6],
 		];
 
+        const lastMove = () => {
+            let marker = gameBoard.getCurrentPlayer() === "player1" ? "O" : "X";
+            return marker; 
+        }
 
+        const getMovesList = () => {
+            const movesList = [];
+            for (let i = 0; i < board.length; i++) {
+                if (board[i] === lastMove()) {
+                    movesList.push(i);
+                }
+            }
+            return movesList;
+        }
+
+        const movesList = getMovesList();
+
+        // winCondition.every(is in movesList) tests whether all elements in winCondition pass the test in parentheses
+        // returns boolean
+
+        // check if all items in winConditions[i] are in movesList
+
+        let winner = false;
+
+        for (let i = 0; i < winConditions.length; i++) {
+            let oneWinCondition = winConditions[i];
+            if (oneWinCondition.every(elem => movesList.includes(elem))) {
+                winner = true;
+            }
+        }
+
+        // TODO: If all spots are filled, return winner = 'draw'
 
         return winner;
     }
