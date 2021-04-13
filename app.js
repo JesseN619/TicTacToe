@@ -86,6 +86,8 @@ const game = (() => {
         const getMovesList = () => {
             const movesList = [];
             for (let i = 0; i < board.length; i++) {
+                // Adds last move to movesList. movesList is the list of moves
+                // for the player who last made a move
                 if (board[i] === lastMove()) {
                     movesList.push(i);
                 }
@@ -95,21 +97,21 @@ const game = (() => {
 
         const movesList = getMovesList();
 
-        // winCondition.every(is in movesList) tests whether all elements in winCondition pass the test in parentheses
-        // returns boolean
-
-        // check if all items in winConditions[i] are in movesList
-
         let winner = false;
 
         for (let i = 0; i < winConditions.length; i++) {
             let oneWinCondition = winConditions[i];
+            // Check if all items in winConditions[i] are in movesList
             if (oneWinCondition.every(elem => movesList.includes(elem))) {
                 winner = true;
             }
         }
 
-        // TODO: If all spots are filled, return winner = 'draw'
+        if (winner === false && !gameBoard.getBoard().includes("")) {
+            winner = "draw";
+        }
+
+        // TODO: If there's a winner, stop the game
 
         return winner;
     }
