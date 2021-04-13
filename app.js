@@ -2,7 +2,7 @@ const gameBoard = (() => {
     let currentPlayer = "player1";
     const cells = document.querySelectorAll(".cell");
     const message = document.querySelector("#message");
-    const resetBtn = document.querySelector("#reset");
+    const newGameBtn = document.querySelector("#new-game");
 
     const getCurrentPlayer = () => {
         return currentPlayer;
@@ -71,7 +71,7 @@ const gameBoard = (() => {
         currentPlayer = "player1";
     }
 
-    resetBtn.addEventListener("click", reset);
+    newGameBtn.addEventListener("click", reset);
 
     return {getCurrentPlayer, init, getBoard};
 })();
@@ -137,4 +137,4 @@ const game = (() => {
     return {checkWinner};
 })();
 
-gameBoard.init();
+// gameBoard.init();
