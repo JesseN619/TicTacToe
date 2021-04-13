@@ -19,4 +19,10 @@ h1 {
 
 #message {
     text-align: center;
+    margin-top: 20px;
+}
+
+#reset {
+    display: block; /* to center button */
+    margin: 20px auto;
 }

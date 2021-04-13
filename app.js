@@ -2,6 +2,7 @@ const gameBoard = (() => {
     let currentPlayer = "player1";
     const cells = document.querySelectorAll(".cell");
     const message = document.querySelector("#message");
+    const resetBtn = document.querySelector("#reset");
 
     const getCurrentPlayer = () => {
         return currentPlayer;
@@ -19,47 +20,58 @@ const gameBoard = (() => {
         }
     }
 
+    function chooseCell() {
+        if (currentPlayer === "player1") {
+            this.innerHTML = "X";
+            currentPlayer = "player2";
+        } else if (currentPlayer === "player2") {
+            this.innerHTML = "O";
+            currentPlayer = "player1";
+        }
+
+        // Remove eventlistener after 1 click
+        this.removeEventListener('click', chooseCell);
+    }
+
+    function checkWinner() {
+        if (game.checkWinner() === "player1" || game.checkWinner() === "player2") {
+            cells.forEach(cell => 
+                cell.removeEventListener('click', chooseCell));
+            cells.forEach(cell => 
+                cell.removeEventListener('click', checkWinner));
+
+            message.innerHTML = game.checkWinner() === "player1" ? 
+                "Player 1 (X) won!" : "Player 2 (O) won!";
+            // TODO: Change message in message spot to "Winner"
+            // TODO: Reset board
+            
+        } else if (game.checkWinner() === "draw") {
+            cells.forEach(cell => 
+                cell.removeEventListener('click', checkWinner));
+            message.innerHTML = "Draw";
+        }
+    }
+
     const init = () => {
-        function chooseCell() {
-            if (currentPlayer === "player1") {
-                this.innerHTML = "X";
-                currentPlayer = "player2";
-            } else if (currentPlayer === "player2") {
-                this.innerHTML = "O";
-                currentPlayer = "player1";
-            }
-
-            // Remove eventlistener after 1 click
-            this.removeEventListener('click', chooseCell);
-        }
-
-        function checkWinner() {
-            if (game.checkWinner() === "player1" || game.checkWinner() === "player2") {
-                cells.forEach(cell => 
-                    cell.removeEventListener('click', chooseCell));
-                cells.forEach(cell => 
-                    cell.removeEventListener('click', checkWinner));
-
-                message.innerHTML = game.checkWinner() === "player1" ? 
-                    "Player 1 (X) won!" : "Player 2 (O) won!";
-                // TODO: Change message in message spot to "Winner"
-                // TODO: Reset board
-                
-            } else if (game.checkWinner() === "draw") {
-                cells.forEach(cell => 
-                    cell.removeEventListener('click', checkWinner));
-                message.innerHTML = "Draw";
-            }
-        }
-
-        cells.forEach(cell => 
-            cell.addEventListener('click', chooseCell));
-        
-        cells.forEach(cell => 
-            cell.addEventListener('click', checkWinner));
-
+        addListeners();
         render();
     }
+
+    const addListeners = () => {
+        cells.forEach(cell => 
+            cell.addEventListener('click', chooseCell));
+        cells.forEach(cell => 
+            cell.addEventListener('click', checkWinner));
+    }
+
+    const reset = () => {
+        cells.forEach(cell => cell.innerHTML = "");
+        addListeners();
+        message.innerHTML = "";
+        currentPlayer = "player1";
+    }
+
+    resetBtn.addEventListener("click", reset);
 
     return {getCurrentPlayer, init, getBoard};
 })();
