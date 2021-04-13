@@ -2,10 +2,22 @@ h1 {
     text-align: center;
 }
 
+.instructions {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    text-align: center;
+}
+
+#player-1 {
+    margin-right: 30px;
+}
+
 #new-game {
     display: block;
-    margin: auto;
-    margin-bottom: 20px;
+    margin: 20px auto;
 }
 
 #gameboard {
