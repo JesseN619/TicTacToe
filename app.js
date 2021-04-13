@@ -35,12 +35,17 @@ const gameBoard = (() => {
         function checkWinner() {
             if (game.checkWinner() === true) {
                 console.log('Winner!');
+                cells.forEach(cell => 
+                    cell.removeEventListener('click', chooseCell));
+
 
                 // TODO: Change message in message spot to "Winner"
                 // TODO: Reset board
                 
             } else if (game.checkWinner() === "draw") {
                 console.log('Draw');
+                cells.forEach(cell => 
+                    cell.removeEventListener('click', checkWinner));
             }
         }
 
@@ -110,8 +115,6 @@ const game = (() => {
         if (winner === false && !gameBoard.getBoard().includes("")) {
             winner = "draw";
         }
-
-        // TODO: If there's a winner, stop the game
 
         return winner;
     }
