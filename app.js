@@ -1,6 +1,7 @@
 const gameBoard = (() => {
     let currentPlayer = "player1";
     const cells = document.querySelectorAll(".cell");
+    const message = document.querySelector("#message");
 
     const getCurrentPlayer = () => {
         return currentPlayer;
@@ -33,19 +34,21 @@ const gameBoard = (() => {
         }
 
         function checkWinner() {
-            if (game.checkWinner() === true) {
-                console.log('Winner!');
+            if (game.checkWinner() === "player1" || game.checkWinner() === "player2") {
                 cells.forEach(cell => 
                     cell.removeEventListener('click', chooseCell));
+                cells.forEach(cell => 
+                    cell.removeEventListener('click', checkWinner));
 
-
+                message.innerHTML = game.checkWinner() === "player1" ? 
+                    "Player 1 (X) won!" : "Player 2 (O) won!";
                 // TODO: Change message in message spot to "Winner"
                 // TODO: Reset board
                 
             } else if (game.checkWinner() === "draw") {
-                console.log('Draw');
                 cells.forEach(cell => 
                     cell.removeEventListener('click', checkWinner));
+                message.innerHTML = "Draw";
             }
         }
 
@@ -108,7 +111,7 @@ const game = (() => {
             let oneWinCondition = winConditions[i];
             // Check if all items in winConditions[i] are in movesList
             if (oneWinCondition.every(elem => movesList.includes(elem))) {
-                winner = true;
+                winner = lastMove() === "X" ? "player1" : "player2";
             }
         }
 
