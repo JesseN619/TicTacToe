@@ -85,6 +85,9 @@ const Player = (marker) => {
 };
 
 const game = (() => {
+    const cells = document.querySelectorAll(".cell");
+    const message = document.querySelector("#message");
+
     const checkWinner = () => {
         const board = gameBoard.getBoard();
         const winConditions = [
