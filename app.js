@@ -41,9 +41,8 @@ const gameBoard = (() => {
                 cell.removeEventListener('click', checkWinner));
 
             message.innerHTML = game.checkWinner() === "player1" ? 
-                "Player 1 (X) won!" : "Player 2 (O) won!";
-            // TODO: Change message in message spot to "Winner"
-            // TODO: Reset board
+                document.querySelector("#player-1").value + " won!" : 
+                document.querySelector("#player-2").value + " won!";
             
         } else if (game.checkWinner() === "draw") {
             cells.forEach(cell => 
@@ -140,4 +139,4 @@ const game = (() => {
     return {checkWinner};
 })();
 
-// gameBoard.init();
+gameBoard.init();
